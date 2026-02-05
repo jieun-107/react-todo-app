@@ -3,7 +3,15 @@ import Checkbox from "./html/Checkbox";
 import SvgClose from "./svg/SvgClose";
 import SvgPencil from "./svg/SvgPencil";
 
-export default function TodoListItem({todo}: { todo: Todo; }) {
+export default function TodoListItem({
+  todo,
+  toggleTodo,
+  deleteTodo,
+}: {
+  todo: Todo;
+  toggleTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
+}) {
   return (
     <>
       {/* 할 일이 완료되면 .todo__item--complete 추가  */}
@@ -13,6 +21,7 @@ export default function TodoListItem({todo}: { todo: Todo; }) {
           type="checkbox"
           className="todo__checkbox"
           checked={todo.completed}
+          onChange={() => toggleTodo(todo.id)}
         >
           {todo.text}
         </Checkbox>
@@ -22,7 +31,7 @@ export default function TodoListItem({todo}: { todo: Todo; }) {
           <Button className="todo__action-button">
             <SvgPencil />
           </Button>
-          <Button className="todo__action-button">
+          <Button className="todo__action-button" onClick={() => deleteTodo(todo.id)}>
             <SvgClose />
           </Button>
         </div>
