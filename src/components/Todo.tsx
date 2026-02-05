@@ -37,6 +37,10 @@ export default function Todo() {
     setTodos((todos) => todos.filter((todo) => todo.id !== id));
   };
 
+  const modifyTodo = (id: number, text: string) => {
+    setTodos((todos) => todos.map((todo) => todo.id === id ? { ...todo, text} : todo));
+  }
+
   return (
     <>
       <div className="todo">
@@ -47,7 +51,7 @@ export default function Todo() {
         <TodoEditor addTodo={addTodo} />
 
         {/* 할 일 목록: TodoList가 배열을 받아 각각의 항목을 렌더링 */}
-        <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
+        <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} modifyTodo={modifyTodo} />
       </div>
     </>
   );
