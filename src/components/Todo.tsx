@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoEditor from "./TodoEditor"; // 입력 폼 컴포넌트
 import TodoHeader from "./TodoHeader"; // 상단 헤더(타이틀 등)
 import TodoList from "./TodoList"; // 실제 할 일 항목들을 렌더링하는 리스트
@@ -7,7 +7,7 @@ export default function Todo() {
   // useState<Todo[]>: 제네릭으로 상태의 타입을 명시.
   // - `Todo[]`는 Todo 객체들의 배열.
   // - 초기값은 빈 배열([])이며, 이 상태가 'todos'에 저장됨.
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(JSON.parse(localStorage.getItem("todos") || "[]"));
 
   // addTodo: 새로운 할 일을 추가하는 함수.
   // - text 매개변수는 추가할 할 일의 문자열 내용.
@@ -40,6 +40,10 @@ export default function Todo() {
   const modifyTodo = (id: number, text: string) => {
     setTodos((todos) => todos.map((todo) => todo.id === id ? { ...todo, text} : todo));
   }
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos]);
 
   return (
     <>
