@@ -1,23 +1,17 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "./html/Button";
 import Checkbox from "./html/Checkbox";
 import Input from "./html/Input";
 import SvgClose from "./svg/SvgClose";
 import SvgPencil from "./svg/SvgPencil";
+import { useTodoAction } from "../context/todo/useTodo";
 
-export default function TodoListItem({
-  todo,
-  toggleTodo,
-  deleteTodo,
-  modifyTodo,
-}: {
-  todo: Todo;
-  toggleTodo: (id: number) => void;
-  deleteTodo: (id: number) => void;
-  modifyTodo: (id: number, newText: string) => void;
-}) {
+export default React.memo(function TodoListItem({ todo }: { todo: Todo }) {
+  console.log("TodoListItem");
+
   const [modifyText, setModifyText] = useState(todo.text);
   const [isModify, setIsModify] = useState(false);
+  const { toggleTodo, modifyTodo, deleteTodo } = useTodoAction();
 
   const modifyHandler = () => {
     setIsModify(!isModify);
@@ -25,7 +19,7 @@ export default function TodoListItem({
     if (modifyText != null && todo.text !== modifyText) {
       modifyTodo(todo.id, modifyText);
     }
-  }
+  };
 
   return (
     <>
@@ -52,10 +46,7 @@ export default function TodoListItem({
           />
         )}
         <div className="todo__button-group">
-          <Button
-            className="todo__action-button"
-            onClick={modifyHandler}
-          >
+          <Button className="todo__action-button" onClick={modifyHandler}>
             <SvgPencil />
           </Button>
           <Button
@@ -68,4 +59,4 @@ export default function TodoListItem({
       </li>
     </>
   );
-}
+});

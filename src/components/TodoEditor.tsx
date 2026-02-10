@@ -1,18 +1,16 @@
 import { useState } from "react";
 import Button from "./html/Button"; // 프로젝트 내부의 Button 컴포넌트
 import Input from "./html/Input"; // 프로젝트 내부의 Input 컴포넌트
+import { useTodoAction } from "../context/todo/useTodo";
 
 // 컴포넌트의 props 타입을 인라인으로 정의.
 // - addTodo: 문자열(text)을 받아서 처리하는 함수. 부모 컴포넌트로부터 전달됨.
-export default function TodoEditor({
-  addTodo,
-}: {
-  addTodo: (text: string) => void;
-}) {
+export default function TodoEditor() {
   // useState 훅: 컴포넌트 내부의 상태(state)를 관리.
   // 여기서는 사용자가 입력한 텍스트를 저장하는 `text` 상태를 사용.
   // TypeScript가 초기값("")을 보고 `text`를 string 타입으로 추론.
   const [text, setText] = useState("");
+  const { addTodo } = useTodoAction();
 
   // 폼 제출(Enter 키 또는 버튼 클릭) 시 호출되는 함수.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
