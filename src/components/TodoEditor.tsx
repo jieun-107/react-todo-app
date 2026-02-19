@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Button from "./html/Button"; // 프로젝트 내부의 Button 컴포넌트
 import Input from "./html/Input"; // 프로젝트 내부의 Input 컴포넌트
-import { useTodoAction } from "../context/todo/useTodo";
+// import { useTodoAction } from "../context/todo/useTodo";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../store/features/todo/todoSlice";
 
 // 컴포넌트의 props 타입을 인라인으로 정의.
 // - addTodo: 문자열(text)을 받아서 처리하는 함수. 부모 컴포넌트로부터 전달됨.
@@ -10,7 +12,8 @@ export default function TodoEditor() {
   // 여기서는 사용자가 입력한 텍스트를 저장하는 `text` 상태를 사용.
   // TypeScript가 초기값("")을 보고 `text`를 string 타입으로 추론.
   const [text, setText] = useState("");
-  const { addTodo } = useTodoAction();
+  const dispatch = useDispatch();
+  // const { addTodo } = useTodoAction();
 
   // 폼 제출(Enter 키 또는 버튼 클릭) 시 호출되는 함수.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +23,7 @@ export default function TodoEditor() {
 
     // 부모로부터 받은 addTodo 함수를 호출해 실제 할 일을 추가.
     // addTodo는 외부에서 로직을 처리하므로 이 컴포넌트는 UI와 입력 관리에 집중.
-    addTodo(text);
+    dispatch(addTodo(text));
 
     // 입력 필드를 초기화(빈 문자열로) 해서 사용자가 새 항목을 입력할 수 있도록.
     setText("");
